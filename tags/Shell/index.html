@@ -11,8 +11,8 @@
   
   <title>
     
-      命令时，重定向标准输出的两种方法 
-      
+      标签 
+       : Shell
       
       |
     
@@ -100,157 +100,30 @@
 
 
       <div class="flex-container">
-        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
-<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+        <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
 
-
-  <!-- LaTex Display -->
-
+<div class="container tag-details">
+  <div class="content-title">
+    <h2>
+      <span>Shell</span>
+    </h2>
+  </div>
   
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      }
-    }
-  </script>
-
-
-
-
-
-  <!-- clipboard -->
-
-  
-    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
-  
-  
-<script src="/js/codeCopy.js"></script>
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
-    <div class="post-content">
-      <div class="post-title">命令时，重定向标准输出的两种方法</div>
-      <div class="post-attach">
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-          2023-03-08 14:33:12
-        </span>
-        
+    <div class="post-list">
+      <div class="post-item" title="使用 sudo 命令时，重定向标准输出的两种方法">
+        <span class="time-m-d">2023-03-08</span>
+        <a href="/2023/03/08/%E4%BD%BF%E7%94%A8%20sudo%20%E5%91%BD%E4%BB%A4%E6%97%B6%EF%BC%8C%E9%87%8D%E5%AE%9A%E5%90%91%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/">
+          <span>使用 sudo 命令时，重定向标准输出的两种方法</span>
+        </a>
       </div>
-      <div class="markdown-body">
-        <h2 id="错误的写法："><a href="#错误的写法：" class="headerlink" title="错误的写法："></a>错误的写法：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo cat &gt;/etc/sysctl.d/bbr.conf &lt;&lt;EOF</span><br><span class="line">net.core.default_qdisc=fq</span><br><span class="line">net.ipv4.tcp_congestion_control=bbr</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<p>此写法看似很合理，但执行的时候会报 <code>Permission denied</code>，这是因为输出重定向是由<code>shell</code>执行，而不是由<code>cat</code>执行，<code>sudo</code>命令只对<code>cat</code>命令进行了提权，<code>shell</code>在进行重定向的时候就会报权限不足的错误。</p>
-<h2 id="两种解决方法"><a href="#两种解决方法" class="headerlink" title="两种解决方法"></a>两种解决方法</h2><h3 id="对-shell-进行提权"><a href="#对-shell-进行提权" class="headerlink" title="对 shell 进行提权"></a>对 shell 进行提权</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo bash -c &#x27;cat &gt;/etc/sysctl.d/bbr.conf&#x27; &lt;&lt;EOF</span><br><span class="line">net.core.default_qdisc=fq</span><br><span class="line">net.ipv4.tcp_congestion_control=bbr</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用-tee-命令"><a href="#使用-tee-命令" class="headerlink" title="使用 tee 命令"></a>使用 tee 命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF|sudo tee /etc/sysctl.d/bbr.conf &gt;/dev/null</span><br><span class="line">net.core.default_qdisc=fq</span><br><span class="line">net.ipv4.tcp_congestion_control=bbr</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18836853/sudo-cat-eof-file-doesnt-work-sudo-su-does">https://stackoverflow.com/questions/18836853/sudo-cat-eof-file-doesnt-work-sudo-su-does</a></li>
-<li><a target="_blank" rel="noopener" href="https://wangchujiang.com/linux-command/c/tee.html">https://wangchujiang.com/linux-command/c/tee.html</a></li>
-</ul>
-
-      </div>
-      
-        <div class="prev-or-next">
-          <div class="post-foot-next">
-            
-              <a href="/2023/03/08/hello-world/" target="_self">
-                <i class="iconfont icon-chevronleft"></i>
-                <span>上一页</span>
-              </a>
-            
-          </div>
-          <div class="post-attach">
-            <span class="post-pubtime">
-              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-              2023-03-08 14:33:12
-            </span>
-            
-          </div>
-          <div class="post-foot-prev">
-            
-          </div>
-        </div>
-      
     </div>
-    
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
-  <div class="post-catalog hidden" id="catalog">
-    <div class="title">目录</div>
-    <div class="catalog-content">
-      
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%9A%84%E5%86%99%E6%B3%95%EF%BC%9A"><span class="toc-text">错误的写法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">两种解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9-shell-%E8%BF%9B%E8%A1%8C%E6%8F%90%E6%9D%83"><span class="toc-text">对 shell 进行提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-tee-%E5%91%BD%E4%BB%A4"><span class="toc-text">使用 tee 命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-text">参考链接</span></a></li></ol>
-      
-    </div>
-  </div>
-
   
-<script src="/js/catalog.js"></script>
-
-
-
-
+  <nav class="post-navigation">
     
-      <div class="comments-container">
-        
-  <div id="waline-comments"></div>
-
-  <script>
-    function loadWalineSuc(func) {
-      func({
-        el: '#waline-comments',
-        path: location.pathname,
-        serverURL: 'https://waline.sliu.eu.org/',
-        emoji: false,
-        dark: 'auto',
-        requiredMeta: ['nick', 'mail'],
-        wordLimit: 150,
-        imageUploader: false,
-        search: false,
-        reaction: false,
-        pageSize: 30
-      })
-    }
-  </script>
-
-  
-    <link rel="stylesheet" href="/plugins/waline.css">
-    <script type="module">
-      import { init } from '/plugins/waline.mjs'
-      loadWalineSuc(init)
-    </script>
-  
-
-
-
-
-
-
-
-
-
-      </div>
+    <span class="page-num">1 / 1</span>
     
-  </div>
-
+  </nav>
+</div>
 
         
 <div class="footer">
